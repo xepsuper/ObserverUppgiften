@@ -1,4 +1,4 @@
 package com.ad.interfaces;
 
-public interface IStock {
+public interface ISubject {
 }

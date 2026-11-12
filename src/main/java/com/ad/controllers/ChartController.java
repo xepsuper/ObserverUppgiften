@@ -7,10 +7,13 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import sw.IStock;
+import sw.IStockRetriver;
+import sw.Stock;
 
 public class ChartController implements Initializable, IControllerWithLifeCycle {
 
@@ -20,6 +23,14 @@ public class ChartController implements Initializable, IControllerWithLifeCycle 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         barChart.setLegendVisible(false);
+        List<IStock> stocks = new ArrayList<>();
+        IStockRetriver stock;
+
+        stocks.add(new Stock(stock));
+        stocks.add();
+        clearChart();
+        populateChartFromArray(stocks);
+
 
         /*
          * Example usage:

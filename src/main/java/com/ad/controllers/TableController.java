@@ -24,12 +24,19 @@ public class TableController implements Initializable, IControllerWithLifeCycle 
     @FXML
     public TableColumn<Stock, Integer> price_cell;
 
-    private final ObservableList<Stock> stockData = FXCollections
-            .observableArrayList(new Stock("No data retrieved yet!", 0.0));
+    private final ObservableList<Stock> stockData = FXCollections.observableArrayList(new Stock("No data retrieved yet!", 0.0));
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTableColumnLink();
+
+        clearTable();
+
+        stockData.add(new Stock("AAPL", 150.0));
+        stockData.add(new Stock("GOOGL", 2800.0));
+        populateTableFromArray((ArrayList<Stock>) stockData);
+
     }
 
     private void setupTableColumnLink() {
@@ -37,6 +44,9 @@ public class TableController implements Initializable, IControllerWithLifeCycle 
         price_cell.setCellValueFactory(new PropertyValueFactory<>("Price"));
 
         tbData.setItems(stockData);
+
+
+
     }
 
     // can be called to clear all data in table data source

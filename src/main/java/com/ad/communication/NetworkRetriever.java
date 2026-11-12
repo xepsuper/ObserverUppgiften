@@ -40,7 +40,5 @@ public class NetworkRetriever implements IStockRetriver {
 
     // This method gets called when new stock prices are available.
     @Override
-    public void dataInc(List<IStock> StockData) {
-            System.out.println(StockData);
-    }
+    public void dataInc(List<IStock> StockData) {System.out.println(StockData);}
 }
