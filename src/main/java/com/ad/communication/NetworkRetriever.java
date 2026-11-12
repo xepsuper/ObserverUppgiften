@@ -1,10 +1,13 @@
 package com.ad.communication;
 
+import com.ad.interfaces.IObserver;
+import com.ad.interfaces.ISubject;
 import sw.IStock;
 import sw.IStockRetriver;
 import sw.StockWatcher;
 
 import java.util.List;
+
 
 /**
  * This class will get notified when new stock prices are available.
@@ -21,9 +24,11 @@ import java.util.List;
  * It is also perfectly fine to ignore/remove the singelton solution if you want
  * too setup connections to this class in some other way.
  */
-public class NetworkRetriever implements IStockRetriver {
+public class NetworkRetriever implements IStockRetriver, ISubject  {
 
     private static NetworkRetriever SINGELTON;
+
+    private List<IObserver> Observer;
 
     private NetworkRetriever() {
         // Start watching stock prices online!
@@ -41,4 +46,21 @@ public class NetworkRetriever implements IStockRetriver {
     // This method gets called when new stock prices are available.
     @Override
     public void dataInc(List<IStock> StockData) {System.out.println(StockData);}
+
+    <
+
+    @Override
+    public void register(IObserver observer) {
+
+    }
+
+    @Override
+    public void unregister(IObserver observer) {
+
+    }
+
+    @Override
+    public void notifyObservers(String message) {
+
+    }
 }
