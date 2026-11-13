@@ -6,6 +6,7 @@ import sw.IStock;
 import sw.IStockRetriver;
 import sw.StockWatcher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,11 +29,12 @@ public class NetworkRetriever implements IStockRetriver, ISubject  {
 
     private static NetworkRetriever SINGELTON;
 
-    private List<IObserver> Observer;
+    public List<IObserver> observers;
 
-    private NetworkRetriever() {
+    public NetworkRetriever() {
         // Start watching stock prices online!
         new StockWatcher(this);
+        observers = new ArrayList<>();
     }
 
     public static NetworkRetriever getNetworkRetriever() {
@@ -43,24 +45,24 @@ public class NetworkRetriever implements IStockRetriver, ISubject  {
         return SINGELTON;
     }
 
+    // Solution adding observer on dataInc
     // This method gets called when new stock prices are available.
     @Override
-    public void dataInc(List<IStock> StockData) {System.out.println(StockData);}
+    public void dataInc(List<IStock> StockData)
+    {
+       for(IObserver observer : observers){
+           observer.update(StockData);
+       }
 
-    <
-
+    }
     @Override
     public void register(IObserver observer) {
-
+        observers.add(observer);
     }
 
     @Override
     public void unregister(IObserver observer) {
-
+        observers.remove(observer);
     }
 
-    @Override
-    public void notifyObservers(String message) {
-
-    }
 }

@@ -1,8 +1,12 @@
 package com.ad.controllers;
 
+import com.ad.communication.NetworkRetriever;
 import com.ad.interfaces.IControllerWithLifeCycle;
+import com.ad.interfaces.IObserver;
+import com.ad.interfaces.ISubject;
 import com.ad.models.Stock;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,12 +14,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import sw.IStock;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class TableController implements Initializable, IControllerWithLifeCycle {
+public class TableController implements Initializable, IControllerWithLifeCycle, IObserver {
 
     @FXML
     private TableView<Stock> tbData;
@@ -24,19 +30,14 @@ public class TableController implements Initializable, IControllerWithLifeCycle 
     @FXML
     public TableColumn<Stock, Integer> price_cell;
 
-    private final ObservableList<Stock> stockData = FXCollections.observableArrayList(new Stock("No data retrieved yet!", 0.0));
-
-
+    private ObservableList<Stock> stockData = FXCollections.observableArrayList(new Stock("No data retrieved yet!", 0.0));
+    private ISubject subject;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTableColumnLink();
 
-        clearTable();
-
-        stockData.add(new Stock("AAPL", 150.0));
-        stockData.add(new Stock("GOOGL", 2800.0));
-        populateTableFromArray((ArrayList<Stock>) stockData);
-
+         subject = NetworkRetriever.getNetworkRetriever();
+        subject.register(this);
     }
 
     private void setupTableColumnLink() {
@@ -62,5 +63,23 @@ public class TableController implements Initializable, IControllerWithLifeCycle 
     @Override
     public void willUnmount() {
         System.out.println("Table Controller Will unmount!!");
+        subject.unregister(this);
+    }
+
+    @Override
+    public void update(List<IStock> message) {
+
+        ArrayList<Stock> updatedStocks = new ArrayList<>();
+
+        for (IStock stock : message) {
+            updatedStocks.add(
+                    new Stock(stock.getName(), stock.getPrice())
+            );
+        }
+
+        Platform.runLater(() -> {
+            clearTable();
+            populateTableFromArray(updatedStocks);
+        });
     }
 }

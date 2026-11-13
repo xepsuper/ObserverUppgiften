@@ -1,6 +1,10 @@
 package com.ad.controllers;
 
+import com.ad.communication.NetworkRetriever;
 import com.ad.interfaces.IControllerWithLifeCycle;
+import com.ad.interfaces.IObserver;
+import com.ad.interfaces.ISubject;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -12,25 +16,18 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import sw.IStock;
-import sw.IStockRetriver;
-import sw.Stock;
 
-public class ChartController implements Initializable, IControllerWithLifeCycle {
+public class ChartController implements Initializable, IControllerWithLifeCycle, IObserver {
 
     @FXML
     private BarChart<String, Double> barChart;
 
+    private ISubject subject;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         barChart.setLegendVisible(false);
-        List<IStock> stocks = new ArrayList<>();
-        IStockRetriver stock;
-
-        stocks.add(new Stock(stock));
-        stocks.add();
-        clearChart();
-        populateChartFromArray(stocks);
-
+        subject = NetworkRetriever.getNetworkRetriever();
+        subject.register(this);
 
         /*
          * Example usage:
@@ -64,5 +61,14 @@ public class ChartController implements Initializable, IControllerWithLifeCycle 
     @Override
     public void willUnmount() {
         System.out.println("Chart Controller Will unmount!!");
+        subject.unregister(this);
+    }
+
+    @Override
+    public void update(List<IStock> message) {
+        Platform.runLater(() -> {
+            clearChart();
+            populateChartFromArray(message);
+        });
     }
 }

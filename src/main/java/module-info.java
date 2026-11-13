@@ -6,6 +6,7 @@ module com.ad.stocks {
 
     requires StockWatcher;
 
+
     opens com.ad.stocks to javafx.fxml;
     opens com.ad.controllers to javafx.fxml;
     opens com.ad.models to javafx.fxml;

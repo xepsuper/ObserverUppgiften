@@ -1,7 +1,9 @@
 package com.ad.interfaces;
 
-import com.ad.models.Stock;
+import sw.IStock;
+
+import java.util.List;
 
 public interface IObserver {
-    void update(Stock data);
+    void update(List<IStock> message);
 }

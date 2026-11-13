@@ -1,15 +1,18 @@
 package com.ad.models;
 
+import com.ad.interfaces.IObserver;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import sw.IStock;
+
+import java.util.List;
 
 public class Stock implements IStock {
 
     private SimpleDoubleProperty price;
     private SimpleStringProperty name;
 
-    public Stock(String name, Double price) {
+    public Stock(String name, Double price) {          // ← unchanged
         this.name = new SimpleStringProperty(name);
         this.price = new SimpleDoubleProperty(price);
     }
@@ -30,8 +33,10 @@ public class Stock implements IStock {
         price.set(d);
     }
 
-    @Override
     public String toString() {
-        return getName() +" trading at: "+getPrice();
+        String var10000 = this.getName();
+        return var10000 + " trading at: " + this.getPrice();
     }
 }
+
+
