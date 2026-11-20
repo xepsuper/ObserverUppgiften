@@ -3,6 +3,7 @@ package controllers;
 import files.IMessageSaver;
 import files.SaveMessageToFile;
 import java.net.URL;
+import java.util.Base64;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,6 +43,10 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private void handleInsertButton() {
+        boolean rubberyChecked = cbRubberyLang.isSelected();
+        boolean base64Checked = cbBase64.isSelected();
+        boolean superImpChecked = cbSuperImp.isSelected();
+
         String message = txtMessage.getText();
         if(message.length() == 0) {
             showAlert("Please insert a text message first.", "Fail");
