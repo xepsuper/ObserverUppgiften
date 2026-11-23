@@ -1,6 +1,6 @@
 package files;
 
-public abstract class MessageDecorator implements IMessageFilter{
+public class MessageDecorator implements IMessageFilter{
 
     protected IMessageFilter tempSelection;
     public MessageDecorator(IMessageFilter tempSelection){

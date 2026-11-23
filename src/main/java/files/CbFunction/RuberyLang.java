@@ -8,7 +8,7 @@ public class RuberyLang extends MessageDecorator {
         super(tempSelection);
 
     }
-    public String rubberLang(String message) {
+    public String getRubberyLang(String message) {
         String vowels = "aeyuoåäöi";
         String outString = "";
         int length = message.length();
